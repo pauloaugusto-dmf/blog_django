@@ -1,5 +1,4 @@
 from django.contrib.auth import login
-from django.http import request
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
@@ -94,7 +93,6 @@ class UserDeleteView(LoginRequiredMixin, View):
                 'safeword': self.safeword
             }
             return render(request, self.template_name, context)
-
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'

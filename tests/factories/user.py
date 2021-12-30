@@ -1,3 +1,4 @@
+from django.db.models.fields import EmailField
 import factory
 import factory.fuzzy
 
