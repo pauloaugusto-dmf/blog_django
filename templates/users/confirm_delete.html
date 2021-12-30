@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Blog - User confirm delete {% endblock title %}
+
+{% block content %}
+
+
+{% if error %}
+<p>{{ error }}</p>
+{% endif %}
+
+<form action="" class="" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Deletar Usuário</legend>
+        <p>Tem certeza que deseja apagar a sua conta "{{ user.username }}"?</p>
+        <label for="safeword">Palavra de confirmação: </label>
+        <input type="text" name="safeword" id="id_safeword" placeholder="{{ safeword }}"><br>
+        <p>Digite a palava {{ safeword }} para confirmar que deseja deletar sua conta</p>
+
+        <input type="submit" class="" value="Apagar">
+        <a class="" href="{% url 'user:update' %}">Cancelar</a>
+    </fieldset>
+</form>
+
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Blog - User Update {% endblock title %}
+
+{% block content %}
+
+{% if error %}
+<p>{{ error }}</p>
+{% endif %}
+
+
+<form action="" class="" method="post">
+    {% csrf_token %}
+    <fieldset> 
+      <legend>Cadastro de usuários</legend>
+      <label for="username">Username:</label>
+      <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="username" value="{{ user.username }}"><br>
+      <span class="helptext">Requeridos. 150 caracteres ou menos. Letras, dígitos e @ /. / + / - / _ apenas.</span><br>
+
+      <label for="email">Email address:</label>
+      <input type="email" name="email" value="{{ user.email }}" maxlength="254" id="email"><br>
+
+      <label for="first_name">First name:</label>
+      <input type="text" name="first_name" value="{{ user.first_name }}" maxlength="150" id="first_name"><br>
+
+      <label for="last_name">Last name:</label>
+      <input type="text" name="last_name" value="{{ user.last_name }}" maxlength="150" id="last_name"><br>
+
+
+      <input type="submit" class="" value="Atualizar"><br>
+      <a href="{%  url 'user:delete' %}" class="">Apagar conta</a>
+    </fieldset>
+</form>
+
+{% endblock content %}
