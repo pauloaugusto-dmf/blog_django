@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Blog - Login {% endblock title %}
+
+{% block content %}
+
+{% if form.errors %}
+<p>Seu nome de usuário e senha não coincidem. Por favor, tente novamente.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Sua conta não tem acesso a esta página. Para prosseguir,
+      faça login com uma conta que tenha acesso.</p>
+    {% else %}
+    <p>Por favor, faça o login para ver esta página.</p>
+    {% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'user:login' %}">
+{% csrf_token %}
+  <fieldset>
+    <legend>Login</legend>
+    <label for="username">Username:</label>
+    <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="username"><br>
+    
+    <label for="password">Senha:</label>
+    <input type="password" name="password" autocomplete="current-password" required id="password"><br>
+
+    <input type="submit" value="login">
+    <input type="hidden" name="next" value="{{ next }}">
+
+    {# Assumes you set up the password_reset view in your URLconf #}
+    <p><a href="{# url 'password_reset' #}">Lost password?</a></p>
+  </fieldset>
+</form>
+
+
+
+{% endblock %}
