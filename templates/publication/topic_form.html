@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Blog - Topics {% endblock title %}
+
+{% block content %}
+
+<form action="" class="" method="post">
+    {% csrf_token %}
+    <fieldset> 
+        <legend>Cadastro de assuntos</legend>
+        <label for="id_name">Name:</label>
+        <input type="text" name="name" maxlength="200" required id="id_name">
+        <input type="submit" class="" value="Salvar">
+      </fieldset>
+</form>
+
+{% endblock content %}

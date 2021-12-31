@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<H1>Home</H1>
+<a href="{% url 'publication:list_topic' %}" >Lista de Assuntos</a>
+
+{% endblock content %}
