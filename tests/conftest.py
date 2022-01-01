@@ -1,7 +1,12 @@
 import pytest
 
-from .factories.user import UserFactory
+from .factories.users import UserFactory
+from .factories.publication import TopicFactory
 
 @pytest.fixture
 def user():
     return UserFactory()
+
+@pytest.fixture
+def topic():
+    return TopicFactory()
