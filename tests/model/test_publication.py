@@ -7,10 +7,10 @@ pytestmark = pytest.mark.django_db
 
 class TestTopicModel:
     def test_create_topic(self):
-        user = Topic.objects.create(
-            name="test_topic"
-        )
-        
-        assert user.name == "test_topic"
+        topic = Topic.objects.create( name="test_topic" )
+        assert topic.name == "test_topic"
     
+    def test___str__(self):
+        topic = Topic.objects.create( name="test_topic" )
+        assert str(topic) == "test_topic"
 
