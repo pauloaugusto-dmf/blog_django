@@ -103,3 +103,16 @@ class PostDeleteView(DeleteView):
     model = Post
     template_name_suffix = '_confirm_delete'
     success_url = '/post/list/'
+
+class PostSearchView(View):
+    model = Post
+    template_name = 'publication/post_search.html'
+
+    def get(self, request):
+        search = request.GET.get('search')
+        object = self.model.objects.filter(title__icontains=search)
+        context = {
+            'posts': object
+        }
+
+        return render(request, self.template_name, context)

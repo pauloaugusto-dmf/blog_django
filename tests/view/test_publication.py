@@ -112,6 +112,5 @@ class TestPostViews:
         def test_status_code(self, client, post):
             response = client.get(reverse('publication:delete_post', kwargs={'slug': post.slug}))
             assert response.status_code == 200
-
-
+    
  

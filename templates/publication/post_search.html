@@ -4,14 +4,7 @@
 
 {% block content %}
 
-<H1>Home</H1>
-<a href="{% url 'publication:list_topic' %}" >Lista de Assuntos</a><br>
-<a href="{% url 'publication:list_post' %}" >Lista de Posts</a>
-
-<form class="" method="get" action="{% url 'publication:search' %}">
-    <input class="" type="search" id="search" placeholder="Busca" aria-label="Busca" name="search">
-    <button class="" type="submit">Busca</button>
-</form>
+<H1>Resultado da pesquisa</H1>
 
 <section>
     {% for post in posts %}
@@ -24,7 +17,7 @@
             <p>{{ post.article }}</p>
         </div>
     {% empty %}
-        <p>Sem Postagem</p>
+        <p>A busca não encontrou nenhuma postagem</p>
     {% endfor %}
 </section>
 
