@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock title %}
+
+{% block content %}
+
+<h1 class=""><span class="">{{ post.theme }}</span>{{ post.title }}</h1>
+
+{% if post.image %}
+    <img class="" src="/media/{{post.image}}" alt="{{ post.alt }}">
+{% else %}
+    <img class="" src="{% static 'images/no_image.jpg' %}" alt="sem imagem">
+{% endif %}
+
+<p class="">
+    <strong>Autor: </strong>{{ post.author }} 
+    <time><strong>Publicado:</strong>{{ post.get_time }}</time>
+</p> 
+
+<p>{{ post.article }}</p>
+
+<p class="">
+    Voltar para 
+    <a class="" href="\">
+    home
+    </a>
+</p>
+
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Topic - Delete {% endblock title %}
+
+{% block content %}
+<form action="" class="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <fieldset>
+        <legend>Deletar Assunto</legend>
+        <p>Tem certeza que deseja apagar a postagem "{{ object.title }}"?</p>
+        <input type="submit" class="" value="Apagar">
+        <a class="" href="{% url 'publication:list_post' %}">Cancelar</a>
+    </fieldset>
+
+</form>
+
+{% endblock content %}

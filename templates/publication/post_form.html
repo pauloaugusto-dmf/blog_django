@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Blog - Topics {% endblock title %}
+
+{% block content %}
+
+<form action="" class="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset>
+        <legend> Cadastro de uma nova postagem </legend>
+        <label for="title">Título: </label>
+        <input type="text" name="title" maxlength="200" required id="title"><br>
+
+        <label for="topic">Temas:</label>
+        <select name="topic" required id="topic">
+            <option value="" selected>---------</option>
+            {% for topic in topics %}
+                <option value="{{ topic.id }}">{{ topic.name }}</option>
+            {% empty %}
+            {% endfor %}
+        </select><br>
+      
+        <label for="image">Imagem:</label></th>
+        <input type="file" name="image" accept="image/*" id="image"><br>
+
+        <label for="alt">Texto alternativo para a imagem:</label>
+        <input type="text" name="alt" maxlength="200" required id="alt"><br>
+      
+        <label for="article">Artigo:</label>
+        <textarea name="article" cols="40" rows="10" required id="article"></textarea><br>
+
+        <input type="submit" class="" value="Salvar">
+    </fieldset>
+</form>
+
+{% endblock content %}

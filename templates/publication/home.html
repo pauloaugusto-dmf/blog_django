@@ -5,6 +5,22 @@
 {% block content %}
 
 <H1>Home</H1>
-<a href="{% url 'publication:list_topic' %}" >Lista de Assuntos</a>
+<a href="{% url 'publication:list_topic' %}" >Lista de Assuntos</a><br>
+<a href="{% url 'publication:list_post' %}" >Lista de Posts</a>
+
+<section>
+    {% for post in posts %}
+        <div>
+            <h2>{{ post.title }}</h2>
+            <h3>Tema: {{ post.topic }}</h3>
+            <p>Autor: {{ post.author }}</p>
+            <p>Publicado: {{ post.get_time }}</p>
+            <img src="/media/{{post.image}}" alt="{{ post.alt }}">
+            <p>{{ post.article }}</p>
+        </div>
+    {% empty %}
+        <p>Sem Postagem</p>
+    {% endfor %}
+</section>
 
 {% endblock content %}
