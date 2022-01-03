@@ -1,11 +1,12 @@
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.views import View
 from django.views.generic.list import ListView
 
 
-from .models import Topic, Post
-from .form import PostCreateForm
+from .models import Topic, Post, Comment
+from .form import PostCreateForm, PostCommentForm
 
 class PublicationHomeView(View):
     template_name = 'publication/home.html'
@@ -55,6 +56,7 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['comment_form'] = PostCommentForm()
         return context
 
 class PostCreateView(CreateView):
@@ -144,3 +146,19 @@ class PostDislikeView(View):
         else:
             post.dislike.add(request.user)
         return redirect('publication:home')
+
+class PostCommentView(CreateView):
+    fields = '__all__'
+    form = PostCommentForm
+    
+    def post(self, request, pk):
+        models = Comment()
+        models.user = request.user
+        models.post = Post.objects.get(id=request.POST.get('post_id')) 
+        form = self.form(request.POST, instance=models)
+
+        if form.is_valid():
+            form.save()
+            return  redirect('publication:home')
+        else:
+            return redirect('publication:home')

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse  
 from model_utils.models import TimeStampedModel
 from autoslug import AutoSlugField
 from datetime import datetime , timezone
@@ -35,7 +36,7 @@ class Post(TimeStampedModel):
         return self.title
 
     def get_absolute_url(self):
-        ...
+        reverse('article:detail', kwargs={'slug': self.slug})
 
     def get_sum_likes(self):
         likes = self.like.count()
@@ -44,6 +45,32 @@ class Post(TimeStampedModel):
     def get_sum_dislikes(self):
         dislikes = self.dislike.count()
         return dislikes
+
+    def get_time(self):
+        now = datetime.now(timezone.utc) - self.created
+        print(now.days)
+        if now.days == 0:
+            now = str(now).split(':')
+            if now[0] == '0':
+                if now[1] == '00':
+                    return 'Nesse momento'
+                else:
+                    return f'Há {now[1]} minutos atrás' if now[1] != '01' else f'Há {now[1]} minuto atrás'
+            else:
+                return f'Há {now[0]} horas atrás' if now[0] != '1' else f'Há {now[0]} hora atrás'
+        else:
+            return f'Há {now.days} dias atrás' if now.days != '1' else f'Há {now.days} dia atrás'
+
+class Comment(TimeStampedModel):
+    user = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE, default=None)
+    post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE, default=None)
+    text = models.TextField()
+
+    class Meta:
+        ordering = ('-created' ,)
+
+    def __str__(self):
+        return self.text
 
     def get_time(self):
         now = datetime.now(timezone.utc) - self.created

@@ -21,6 +21,33 @@
 
 <p>{{ post.article }}</p>
 
+<h3>Comentarios</h3>
+
+<div class="">
+    <form class="" action="{% url 'publication:comment' post.pk %}" method="post">
+        {% csrf_token %}
+        {{ comment_form}}
+        <button class="", type="submit", name="post_id" value="{{ post.id }}">Comentar</button>
+    </form>
+
+    {% if post.comments.all %}
+        {% for comment in post.comments.all %}
+            <div class="">
+                <div class="">
+                    <hr>
+                    <p>
+                        <strong>Comentado por: </strong>{{ comment.user }}
+                        <time><strong>Publicado: </strong>{{ comment.get_time}}</time>
+                    </p>
+                </div>
+                <div class="">
+                    <a>{{ comment.text }}</a>
+                </div>
+            </div>
+            {% endfor %}
+    {% endif %}
+</div>
+
 <p class="">
     Voltar para 
     <a class="" href="\">

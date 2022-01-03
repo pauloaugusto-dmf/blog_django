@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from.models import Topic, Post
+from.models import Topic, Post, Comment
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
@@ -9,3 +9,7 @@ class TopicAdmin(admin.ModelAdmin):
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug', 'topic', 'author', 'created', 'modified']
+
+@admin.register(Comment)
+class ThemeAdmin(admin.ModelAdmin):
+    list_display = ['user', 'text', "created", "modified"]
