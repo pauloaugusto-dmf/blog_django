@@ -4,16 +4,6 @@
 
 {% block content %}
 
-<H1>Home</H1>
-
-<a href="{% url 'publication:list_topic' %}" >Lista de Assuntos</a><br>
-<a href="{% url 'publication:list_post' %}" >Lista de Posts</a>
-
-<form class="" method="get" action="{% url 'publication:search' %}">
-    <input class="" type="search" id="search" placeholder="Busca" aria-label="Busca" name="search">
-    <button class="" type="submit">Busca</button>
-</form>
-
 <section>
     {% for post in posts %}
         <div>
@@ -21,8 +11,12 @@
             <h3>Tema: {{ post.topic }}</h3>
             <p>Autor: {{ post.author }}</p>
             <p>Publicado: {{ post.get_time }}</p>
-            <img src="/media/{{post.image}}" alt="{{ post.alt }}">
-            <p>{{ post.article }}</p>
+            <a href="{% url 'publication:detail_post' post.slug %}">
+                <figure>
+                    <img src="/media/{{post.image}}" alt="{{ post.alt }}">
+                </figure>
+            </a>
+            <p>{{ post.article|safe }}</p>
 
             <div class="">
                 <form class="" action="{% url 'publication:like' post.pk %}" method="post">

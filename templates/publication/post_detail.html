@@ -9,9 +9,13 @@
 <h1 class=""><span class="">{{ post.theme }}</span>{{ post.title }}</h1>
 
 {% if post.image %}
-    <img class="" src="/media/{{post.image}}" alt="{{ post.alt }}">
+    <figure class="">
+        <img class="" src="/media/{{post.image}}" alt="{{ post.alt }}">
+    </figure>
 {% else %}
-    <img class="" src="{% static 'images/no_image.jpg' %}" alt="sem imagem">
+    <figure class="">
+        <img class="" src="{% static 'images/no_image.jpg' %}" alt="sem imagem">
+    </figure>
 {% endif %}
 
 <p class="">

@@ -12,6 +12,50 @@
     <title>{% block title %}blog{% endblock title %}</title>
 </head>
 <body>
+
+    <nav class="">
+        <div class="">
+            <h1><a href="{% url 'publication:home' %}">Blog</a></h1>
+            {% if request.user.is_staff %}
+                <a href="{% url 'publication:list_topic' %}" >Assuntos</a><br>
+                <a href="{% url 'publication:list_post' %}" >Posts</a>
+            {% endif %}
+            <ul>
+                Temas
+                {% for topic in topics %}
+                    <li>{{ topic.name }}</li>
+                {% empty %}
+                    <li> Sem tema </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="">
+            <div>
+                <form class="" method="get" action="{% url 'publication:search' %}">
+                    <input class="" type="search" id="search" placeholder="Busca" aria-label="Busca" name="search">
+                    <button class="" type="submit">Busca</button>
+                </form>
+            </div>
+            
+            <div class="">
+                <ul class="">
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.first_name %}
+                        <li class="">Bem vindo: {{ request.user.first_name }}</li>
+                        <hr class="">
+                        {% endif %}
+                        <li class=""><a class="" href="{% url 'user:logout' %}">Sair</a></li>
+                        <li class=""><a class="" href="{% url 'user:update'%}">Editar</a></li>
+                    {% else %}
+                        <li class=""><a class="" href="{% url 'user:login' %}">Entrar</a></li>
+                        <li class=""><a class="" href="{% url 'user:signup' %}">Cadastre-se</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     {% block content %}
     {% endblock content %}
 </body>

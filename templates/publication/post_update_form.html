@@ -12,7 +12,7 @@
         <legend> Atualizar de uma nova postagem </legend>
 
         <label for="title">Título: </label>
-        <input type="text" name="title" value="Teste Modificado 2" maxlength="200" required id="title"><br>
+        <input type="text" name="title" value="{{ object.title }}" maxlength="200" required id="title"><br>
         
         <label for="topic">Temas:</label>
         <select name="topic" required id="topic">
