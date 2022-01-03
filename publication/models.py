@@ -25,6 +25,8 @@ class Post(TimeStampedModel):
     image = models.ImageField(upload_to="posts/%Y/%m/%d", blank=True)
     alt = models.CharField(max_length=200, blank=True, default="")
     article = models.TextField()
+    like = models.ManyToManyField(User, blank=True, related_name='blog_posts_like')
+    dislike = models.ManyToManyField(User, blank=True, related_name='blog_posts_dislike')
 
     class Meta:
         ordering = ('-created' ,)
@@ -34,6 +36,14 @@ class Post(TimeStampedModel):
 
     def get_absolute_url(self):
         ...
+
+    def get_sum_likes(self):
+        likes = self.like.count()
+        return likes
+
+    def get_sum_dislikes(self):
+        dislikes = self.dislike.count()
+        return dislikes
 
     def get_time(self):
         now = datetime.now(timezone.utc) - self.created

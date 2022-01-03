@@ -5,6 +5,7 @@
 {% block content %}
 
 <H1>Home</H1>
+
 <a href="{% url 'publication:list_topic' %}" >Lista de Assuntos</a><br>
 <a href="{% url 'publication:list_post' %}" >Lista de Posts</a>
 
@@ -22,6 +23,25 @@
             <p>Publicado: {{ post.get_time }}</p>
             <img src="/media/{{post.image}}" alt="{{ post.alt }}">
             <p>{{ post.article }}</p>
+
+            <div class="">
+                <form class="" action="{% url 'publication:like' post.pk %}" method="post">
+                    {% csrf_token %}
+                    <button class="", type="submit", name="post_id" value="{{ post.id }}", >
+                        <p>like</p>
+                        <a>{{ post.get_sum_likes }}</a>
+                    </button>
+                </form>
+
+                <form class="" action="{% url 'publication:dislike' post.pk %}" method="post">
+                    {% csrf_token %}
+                    <button class="", type="submit", name="post_id" value="{{ post.id }}", >
+                        <p>dislike</p>
+                        <a>{{ post.get_sum_dislikes }}</a>
+                    </button>
+                </form>
+
+            </div>
         </div>
     {% empty %}
         <p>Sem Postagem</p>

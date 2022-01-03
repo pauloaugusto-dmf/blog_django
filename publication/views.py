@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.views import View
 from django.views.generic.list import ListView
@@ -116,3 +116,31 @@ class PostSearchView(View):
         }
 
         return render(request, self.template_name, context)
+
+class PostLikeView(View):
+    model = Post
+    
+    def post(self, request, pk):
+        post = get_object_or_404(self.model, id=request.POST.get('post_id'))
+        if post.dislike.filter(id=request.user.id).exists():
+            post.like.add(request.user)
+            post.dislike.remove(request.user)
+        elif post.like.filter(id=request.user.id).exists():
+            post.like.remove(request.user)
+        else:
+            post.like.add(request.user)
+        return redirect('publication:home')
+
+class PostDislikeView(View):
+    model = Post
+    
+    def post(self, request, pk):
+        post = get_object_or_404(self.model, id=request.POST.get('post_id'))
+        if post.like.filter(id=request.user.id).exists():
+            post.dislike.add(request.user)
+            post.like.remove(request.user)
+        elif post.dislike.filter(id=request.user.id).exists():
+            post.dislike.remove(request.user)
+        else:
+            post.dislike.add(request.user)
+        return redirect('publication:home')

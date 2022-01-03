@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostDetailView, PublicationHomeView, TopicCreateView, TopicUpdateView, TopicDeleteView, TopicListView, PostListView, PostCreateView, PostUpdateView, PostDeleteView, PostDetailView, PostSearchView
+from .views import PostDetailView, PublicationHomeView, TopicCreateView, TopicUpdateView, TopicDeleteView, TopicListView, PostListView, PostCreateView, PostUpdateView, PostDeleteView, PostDetailView, PostSearchView, PostLikeView, PostDislikeView
 
 
 app_name = 'publication'
@@ -19,4 +19,6 @@ urlpatterns = [
     path('post/<slug:slug>/', PostDetailView.as_view(), name="detail_post"),
 
     path('post/search', PostSearchView.as_view(), name="search"),
+    path('like/<int:pk>', PostLikeView.as_view(), name="like"),
+    path('dislike/<int:pk>', PostDislikeView.as_view(), name="dislike"),
 ]
