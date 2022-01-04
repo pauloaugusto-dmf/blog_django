@@ -85,4 +85,4 @@ class Comment(TimeStampedModel):
             else:
                 return f'Há {now[0]} horas atrás' if now[0] != '1' else f'Há {now[0]} hora atrás'
         else:
-            return f'Há {now.days} dias atrás' if now.days != '1' else f'Há {now.days} dia atrás'
+            return f'Há {now.days} dias atrás' if now.days != '1' else f'Há {now.days} dia atrás' 

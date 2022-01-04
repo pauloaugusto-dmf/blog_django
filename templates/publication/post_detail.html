@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}{{ post.title }}{% endblock title %}
+{% block title %}Blog - {{ post.title }}{% endblock title %}
 
 {% block content %}
 
@@ -23,16 +23,24 @@
     <time><strong>Publicado:</strong>{{ post.get_time }}</time>
 </p> 
 
-<p>{{ post.article }}</p>
+<p>{{ post.article|safe }}</p>
 
 <h3>Comentarios</h3>
 
 <div class="">
-    <form class="" action="{% url 'publication:comment' post.pk %}" method="post">
+    <form class="" id="comment_post" action="" method="post">
         {% csrf_token %}
-        {{ comment_form}}
-        <button class="", type="submit", name="post_id" value="{{ post.id }}">Comentar</button>
+        <fieldset>
+            <legend> Campo de comentario </legend>
+            <label for="comment_text">Commentario</label><br>
+            <textarea class="form-control" placeholder="Deixe um commentario aqui" id="comment_text"></textarea><br>
+            
+            <button class="", type="submit", id="post_id" name="post_id" value="{{ post.id }}">Comentar</button>
+        </fieldset>
+        
     </form>
+
+    <div id="comment"></div>
 
     {% if post.comments.all %}
         {% for comment in post.comments.all %}
@@ -41,7 +49,7 @@
                     <hr>
                     <p>
                         <strong>Comentado por: </strong>{{ comment.user }}
-                        <time><strong>Publicado: </strong>{{ comment.get_time}}</time>
+                        <time><strong>Publicado: </strong>{{ comment.get_time }}</time>
                     </p>
                 </div>
                 <div class="">
@@ -58,5 +66,11 @@
     home
     </a>
 </p>
+
+<script>
+    const URL = "{% url 'publication:comment' post.pk %}" 
+</script>
+
+<script src="{% static 'js/comment.js' %}"></script>
 
 {% endblock content %}

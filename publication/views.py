@@ -1,4 +1,6 @@
-from django.http.response import HttpResponseRedirect
+import json
+
+from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.views import View
@@ -152,13 +154,20 @@ class PostCommentView(CreateView):
     form = PostCommentForm
     
     def post(self, request, pk):
-        models = Comment()
-        models.user = request.user
-        models.post = Post.objects.get(id=request.POST.get('post_id')) 
-        form = self.form(request.POST, instance=models)
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            models = Comment()
 
-        if form.is_valid():
-            form.save()
-            return  redirect('publication:home')
-        else:
-            return redirect('publication:home')
+            data_from_post = json.load(request)['post_data']
+
+            models.post = Post.objects.get(id=data_from_post['post_id'])
+            models.user = request.user
+            models.text = data_from_post['comment']
+            models.save()
+
+            data = json.dumps({
+                'comment': models.text,
+                'user': request.user.username,
+                'comment_time': models.get_time()
+            }, indent = 4)
+
+            return JsonResponse(data, safe=False)
