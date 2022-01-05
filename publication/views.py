@@ -123,31 +123,31 @@ class PostSearchView(View):
 
 class PostLikeView(View):
     model = Post
-    
-    def post(self, request, pk):
-        post = get_object_or_404(self.model, id=request.POST.get('post_id'))
-        if post.dislike.filter(id=request.user.id).exists():
-            post.like.add(request.user)
-            post.dislike.remove(request.user)
-        elif post.like.filter(id=request.user.id).exists():
-            post.like.remove(request.user)
-        else:
-            post.like.add(request.user)
-        return redirect('publication:home')
 
-class PostDislikeView(View):
-    model = Post
-    
     def post(self, request, pk):
-        post = get_object_or_404(self.model, id=request.POST.get('post_id'))
-        if post.like.filter(id=request.user.id).exists():
-            post.dislike.add(request.user)
-            post.like.remove(request.user)
-        elif post.dislike.filter(id=request.user.id).exists():
-            post.dislike.remove(request.user)
+        #TODO refactor
+        like = request.POST.get('like')
+        post = get_object_or_404(self.model, id=pk)
+        if like == '1':
+            if post.dislike.filter(id=request.user.id).exists():
+                post.like.add(request.user)
+                post.dislike.remove(request.user)
+            elif post.like.filter(id=request.user.id).exists():
+                post.like.remove(request.user)
+            else:
+                post.like.add(request.user)
+            return redirect('publication:home')
         else:
-            post.dislike.add(request.user)
-        return redirect('publication:home')
+            if post.like.filter(id=request.user.id).exists():
+                post.dislike.add(request.user)
+                post.like.remove(request.user)
+            elif post.dislike.filter(id=request.user.id).exists():
+                post.dislike.remove(request.user)
+            else:
+                post.dislike.add(request.user)
+            return redirect('publication:home')
+
+        ...
 
 class PostCommentView(CreateView):
     fields = '__all__'

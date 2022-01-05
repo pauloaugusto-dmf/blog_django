@@ -47,6 +47,7 @@ class Post(TimeStampedModel):
         return dislikes
 
     def get_time(self):
+        #TODO refactor
         now = datetime.now(timezone.utc) - self.created
         print(now.days)
         if now.days == 0:
@@ -73,6 +74,7 @@ class Comment(TimeStampedModel):
         return self.text
 
     def get_time(self):
+        #TODO refactor
         now = datetime.now(timezone.utc) - self.created
         print(now.days)
         if now.days == 0:
