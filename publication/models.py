@@ -2,9 +2,10 @@ from django.db import models
 from django.urls import reverse  
 from model_utils.models import TimeStampedModel
 from autoslug import AutoSlugField
-from datetime import datetime , timezone
+from datetime import datetime, timezone
 
 from users.models import User
+
 
 class Topic(TimeStampedModel):
     name = models.CharField(max_length=200, unique=True)
@@ -18,6 +19,7 @@ class Topic(TimeStampedModel):
     def __str__(self):
         return self.name
 
+
 class Post(TimeStampedModel):
     title = models.CharField(max_length=200)
     slug = AutoSlugField(unique=True, always_update=False, populate_from='title')
@@ -30,13 +32,13 @@ class Post(TimeStampedModel):
     dislike = models.ManyToManyField(User, blank=True, related_name='blog_posts_dislike')
 
     class Meta:
-        ordering = ('-created' ,)
+        ordering = ('-created',)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        reverse('article:detail', kwargs={'slug': self.slug})
+        return reverse('publication:detail_post', kwargs={'slug': self.slug})
 
     def get_sum_likes(self):
         likes = self.like.count()
@@ -47,7 +49,7 @@ class Post(TimeStampedModel):
         return dislikes
 
     def get_time(self):
-        #TODO refactor
+        # TODO refactor
         now = datetime.now(timezone.utc) - self.created
         print(now.days)
         if now.days == 0:
@@ -62,19 +64,20 @@ class Post(TimeStampedModel):
         else:
             return f'Há {now.days} dias atrás' if now.days != '1' else f'Há {now.days} dia atrás'
 
+
 class Comment(TimeStampedModel):
     user = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE, default=None)
     post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE, default=None)
     text = models.TextField()
 
     class Meta:
-        ordering = ('-created' ,)
+        ordering = ('-created',)
 
     def __str__(self):
         return self.text
 
     def get_time(self):
-        #TODO refactor
+        # TODO refactor
         now = datetime.now(timezone.utc) - self.created
         print(now.days)
         if now.days == 0:

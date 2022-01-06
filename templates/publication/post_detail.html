@@ -25,6 +25,27 @@
 
 <p>{{ post.article|safe }}</p>
 
+<div class="">
+    <form class="" action="{% url 'publication:like' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="like" value="1">
+        <button class="", type="submit", name="post_id" value="{{ post.id }}", >
+            <p>like</p>
+            <a>{{ post.get_sum_likes }}</a>
+        </button>
+    </form>
+
+    <form class="" action="{% url 'publication:like' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="like" value="0">
+        <button class="", type="submit", name="post_id" value="{{ post.id }}", >
+            <p>dislike</p>
+            <a>{{ post.get_sum_dislikes }}</a>
+        </button>
+    </form>
+
+</div>
+
 <h3>Comentarios</h3>
 
 <div class="">
@@ -68,7 +89,7 @@
 </p>
 
 <script>
-    const URL = "{% url 'publication:comment' post.pk %}" 
+    const URL = "{% url 'publication:comment' post.pk %}"
 </script>
 
 <script src="{% static 'js/comment.js' %}"></script>

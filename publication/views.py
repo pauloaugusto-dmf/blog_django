@@ -124,10 +124,10 @@ class PostSearchView(View):
 class PostLikeView(View):
     model = Post
 
-    def post(self, request, pk):
+    def post(self, request):
         #TODO refactor
         like = request.POST.get('like')
-        post = get_object_or_404(self.model, id=pk)
+        post = get_object_or_404(self.model, id=request.POST.get('post_id'))
         if like == '1':
             if post.dislike.filter(id=request.user.id).exists():
                 post.like.add(request.user)
@@ -136,7 +136,7 @@ class PostLikeView(View):
                 post.like.remove(request.user)
             else:
                 post.like.add(request.user)
-            return redirect('publication:home')
+            return redirect(post.get_absolute_url())
         else:
             if post.like.filter(id=request.user.id).exists():
                 post.dislike.add(request.user)
@@ -145,9 +145,8 @@ class PostLikeView(View):
                 post.dislike.remove(request.user)
             else:
                 post.dislike.add(request.user)
-            return redirect('publication:home')
+            return redirect(post.get_absolute_url())
 
-        ...
 
 class PostCommentView(CreateView):
     fields = '__all__'

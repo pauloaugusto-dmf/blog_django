@@ -20,6 +20,6 @@ urlpatterns = [
     path('post/<slug:slug>/', PostDetailView.as_view(), name="detail_post"),
 
     path('post/search', PostSearchView.as_view(), name="search"),
-    path('like/<int:pk>', PostLikeView.as_view(), name="like"),
+    path('like/', PostLikeView.as_view(), name="like"),
     path('post/<int:pk>/comment/', PostCommentView.as_view(), name="comment"),
 ]
