@@ -9,19 +9,19 @@
 <h1 class=""><span class="">{{ post.theme }}</span>{{ post.title }}</h1>
 
 {% if post.image %}
-    <figure class="">
-        <img class="" src="/media/{{post.image}}" alt="{{ post.alt }}">
-    </figure>
+<figure class="">
+    <img class="" src="/media/{{post.image}}" alt="{{ post.alt }}">
+</figure>
 {% else %}
-    <figure class="">
-        <img class="" src="{% static 'images/no_image.jpg' %}" alt="sem imagem">
-    </figure>
+<figure class="">
+    <img class="" src="{% static 'images/no_image.jpg' %}" alt="sem imagem">
+</figure>
 {% endif %}
 
 <p class="">
-    <strong>Autor: </strong>{{ post.author }} 
+    <strong>Autor: </strong>{{ post.author }}
     <time><strong>Publicado:</strong>{{ post.get_time }}</time>
-</p> 
+</p>
 
 <p>{{ post.article|safe }}</p>
 
@@ -29,7 +29,7 @@
     <form class="" action="{% url 'publication:like' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="like" value="1">
-        <button class="", type="submit", name="post_id" value="{{ post.id }}", >
+        <button class="" , type="submit" , name="post_id" value="{{ post.id }}" ,>
             <p>like</p>
             <a>{{ post.get_sum_likes }}</a>
         </button>
@@ -38,7 +38,7 @@
     <form class="" action="{% url 'publication:like' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="like" value="0">
-        <button class="", type="submit", name="post_id" value="{{ post.id }}", >
+        <button class="" , type="submit" , name="post_id" value="{{ post.id }}" ,>
             <p>dislike</p>
             <a>{{ post.get_sum_dislikes }}</a>
         </button>
@@ -55,36 +55,36 @@
             <legend> Campo de comentario </legend>
             <label for="comment_text">Commentario</label><br>
             <textarea class="form-control" placeholder="Deixe um commentario aqui" id="comment_text"></textarea><br>
-            
-            <button class="", type="submit", id="post_id" name="post_id" value="{{ post.id }}">Comentar</button>
+
+            <button class="" , type="submit" , id="post_id" name="post_id" value="{{ post.id }}">Comentar</button>
         </fieldset>
-        
+
     </form>
 
     <div id="comment"></div>
 
     {% if post.comments.all %}
-        {% for comment in post.comments.all %}
-            <div class="">
-                <div class="">
-                    <hr>
-                    <p>
-                        <strong>Comentado por: </strong>{{ comment.user }}
-                        <time><strong>Publicado: </strong>{{ comment.get_time }}</time>
-                    </p>
-                </div>
-                <div class="">
-                    <a>{{ comment.text }}</a>
-                </div>
-            </div>
-            {% endfor %}
+    {% for comment in post.comments.all %}
+    <div class="">
+        <div class="">
+            <hr>
+            <p>
+                <strong>Comentado por: </strong>{{ comment.user }}
+                <time><strong>Publicado: </strong>{{ comment.get_time }}</time>
+            </p>
+        </div>
+        <div class="">
+            <a>{{ comment.text }}</a>
+        </div>
+    </div>
+    {% endfor %}
     {% endif %}
 </div>
 
 <p class="">
-    Voltar para 
+    Voltar para
     <a class="" href="\">
-    home
+        home
     </a>
 </p>
 

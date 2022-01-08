@@ -13,30 +13,30 @@
 
         <label for="title">Título: </label>
         <input type="text" name="title" value="{{ object.title }}" maxlength="200" required id="title"><br>
-        
+
         <label for="topic">Temas:</label>
         <select name="topic" required id="topic">
             <option value="{{ object.topic.id }}">{{ object.topic.name }}</option>
             {% for topic in topics %}
-                {% if topic.id != object.topic.id %}
-                    <option value="{{ topic.id }}">{{ topic.name }}</option>
-                {% endif %}
+            {% if topic.id != object.topic.id %}
+            <option value="{{ topic.id }}">{{ topic.name }}</option>
+            {% endif %}
             {% empty %}
             {% endfor %}
         </select><br>
-        
+
         <label for="id_image">Imagem:</label></th>
         Currently: <a href="/media/posts/2022/01/02/Starfield_SFHero_Date.jpg">{{ object.image }}</a><br>
         <input type="checkbox" name="image-clear" id="image-clear_id">
         <label for="image-clear_id">Clear</label><br>
         Change: <input type="file" name="image" accept="image/*" id="id_image"><br>
-        
+
         <label for="alt">Texto alternativo para a imagem:</label></th>
         <input type="text" name="alt" value="{{ object.alt }}" maxlength="200" id="alt"><br>
-        
+
         <label for="article">Artigo:</label></th>
         <textarea name="article" cols="40" rows="10" required id="article"> {{object.article}} </textarea><br>
-        
+
         <input type="submit" class="" value="Salvar">
         <a class="" href="">Cancelar</a>
 

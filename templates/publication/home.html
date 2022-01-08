@@ -6,25 +6,24 @@
 
 <section>
     {% for post in posts %}
-        <div>
-            <h2>{{ post.title }}</h2>
-            <h3>Tema: {{ post.topic }}</h3>
-            <p>Autor: {{ post.author }}</p>
-            <p>Publicado: {{ post.get_time }}</p>
-            <a href="{% url 'publication:detail_post' post.slug %}">
-                <figure>
-                    <img src="/media/{{post.image}}" alt="{{ post.alt }}">
-                </figure>
-            </a>
-            <p>{{ post.article|safe }}</p>
+    <div>
+        <h2>{{ post.title }}</h2>
+        <h3>Tema: {{ post.topic }}</h3>
+        <p>Autor: {{ post.author }}</p>
+        <p>Publicado: {{ post.get_time }}</p>
+        <a href="{% url 'publication:detail_post' post.slug %}">
+            <figure>
+                <img src="/media/{{post.image}}" alt="{{ post.alt }}">
+            </figure>
+        </a>
+        <p>{{ post.article|safe }}</p>
 
 
-        </div>
+    </div>
     {% empty %}
-        <p>Sem Postagem</p>
+    <p>Sem Postagem</p>
     {% endfor %}
 </section>
 
 
 {% endblock content %}
-

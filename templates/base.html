@@ -7,25 +7,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Um blog simples">
-    <link rel="stylesheet" href="{% static 'css/normalize.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <title>{% block title %}blog{% endblock title %}</title>
 </head>
+
 <body>
 
     <nav class="">
         <div class="">
             <h1><a href="{% url 'publication:home' %}">Blog</a></h1>
             {% if request.user.is_staff %}
-                <a href="{% url 'publication:list_topic' %}" >Assuntos</a><br>
-                <a href="{% url 'publication:list_post' %}" >Posts</a>
+            <a href="{% url 'publication:list_topic' %}">Assuntos</a><br>
+            <a href="{% url 'publication:list_post' %}">Posts</a>
             {% endif %}
             <ul>
                 Temas
                 {% for topic in topics %}
-                    <li>{{ topic.name }}</li>
+                <li>{{ topic.name }}</li>
                 {% empty %}
-                    <li> Sem tema </li>
+                <li> Sem tema </li>
                 {% endfor %}
             </ul>
         </div>
@@ -37,19 +38,19 @@
                     <button class="" type="submit">Busca</button>
                 </form>
             </div>
-            
+
             <div class="">
                 <ul class="">
                     {% if request.user.is_authenticated %}
-                        {% if request.user.first_name %}
-                        <li class="">Bem vindo: {{ request.user.first_name }}</li>
-                        <hr class="">
-                        {% endif %}
-                        <li class=""><a class="" href="{% url 'user:logout' %}">Sair</a></li>
-                        <li class=""><a class="" href="{% url 'user:update'%}">Editar</a></li>
+                    {% if request.user.first_name %}
+                    <li class="">Bem vindo: {{ request.user.first_name }}</li>
+                    <hr class="">
+                    {% endif %}
+                    <li class=""><a class="" href="{% url 'user:logout' %}">Sair</a></li>
+                    <li class=""><a class="" href="{% url 'user:update'%}">Editar</a></li>
                     {% else %}
-                        <li class=""><a class="" href="{% url 'user:login' %}">Entrar</a></li>
-                        <li class=""><a class="" href="{% url 'user:signup' %}">Cadastre-se</a></li>
+                    <li class=""><a class="" href="{% url 'user:login' %}">Entrar</a></li>
+                    <li class=""><a class="" href="{% url 'user:signup' %}">Cadastre-se</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -59,4 +60,5 @@
     {% block content %}
     {% endblock content %}
 </body>
+
 </html>

@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% load static %}
@@ -12,21 +11,22 @@
 {% endif %}
 
 {% if next %}
-    {% if user.is_authenticated %}
-    <p>Sua conta não tem acesso a esta página. Para prosseguir,
-      faça login com uma conta que tenha acesso.</p>
-    {% else %}
-    <p>Por favor, faça o login para ver esta página.</p>
-    {% endif %}
+{% if user.is_authenticated %}
+<p>Sua conta não tem acesso a esta página. Para prosseguir,
+  faça login com uma conta que tenha acesso.</p>
+{% else %}
+<p>Por favor, faça o login para ver esta página.</p>
+{% endif %}
 {% endif %}
 
 <form method="post" action="{% url 'user:login' %}">
-{% csrf_token %}
+  {% csrf_token %}
   <fieldset>
     <legend>Login</legend>
     <label for="username">Username:</label>
-    <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="username"><br>
-    
+    <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required
+      id="username"><br>
+
     <label for="password">Senha:</label>
     <input type="password" name="password" autocomplete="current-password" required id="password"><br>
 

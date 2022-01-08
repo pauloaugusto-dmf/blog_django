@@ -10,8 +10,9 @@
     <h2>Perfil</h2>
     <p><strong>Username:</strong> {{ user.username }}</p>
     <p><strong>Nome: </strong> {% if user.first_name %} {{ user.first_name }} {% else %} não informado {% endif %}</p>
-    <p><strong>Sobrenome: </strong> {% if user.last_name %} {{ user.last_name }} {% else %} não informado {% endif %}</p>
-    <p><strong>Email: </strong>  {% if user.email %} {{ user.email }} {% else %} não informado {% endif %}</p>
+    <p><strong>Sobrenome: </strong> {% if user.last_name %} {{ user.last_name }} {% else %} não informado {% endif %}
+    </p>
+    <p><strong>Email: </strong> {% if user.email %} {{ user.email }} {% else %} não informado {% endif %}</p>
 
     <a href="{% url 'user:update' %}">Atualizar Perfil</a>
 </section>

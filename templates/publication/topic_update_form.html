@@ -8,7 +8,7 @@
 
 <form action="" class="" method="post">
     {% csrf_token %}
-    <fieldset> 
+    <fieldset>
         <legend>Atualizar assunto</legend>
         <label for="id_name">Name:</label>
         <input type="text" name="name" value="{{ object.name }}" maxlength="200" required id="id_name">

@@ -5,17 +5,17 @@
 {% block title %} Topic - Lista de Posts {% endblock title %}
 
 {% block content %}
-    <h1>Posts</h1>
-    <a href="{% url 'publication:create_post' %}">Nova Postagem</a>
-    {% for post in object_list %}
-        <a href="{% url 'publication:detail_post' post.slug %}">
-            <p>{{ post.title }} 
-                <a href="{% url 'publication:update_post' post.slug %}">Atualizar</a>
-                <a href="{% url 'publication:delete_post' post.slug %}">Deletar</a>
-            </p>
-        </a>
-    {% empty %}
-        <p>Sem posts</p>
-    {% endfor %}
+<h1>Posts</h1>
+<a href="{% url 'publication:create_post' %}">Nova Postagem</a>
+{% for post in object_list %}
+<a href="{% url 'publication:detail_post' post.slug %}">
+    <p>{{ post.title }}
+        <a href="{% url 'publication:update_post' post.slug %}">Atualizar</a>
+        <a href="{% url 'publication:delete_post' post.slug %}">Deletar</a>
+    </p>
+</a>
+{% empty %}
+<p>Sem posts</p>
+{% endfor %}
 
 {% endblock content %}

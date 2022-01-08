@@ -5,15 +5,15 @@
 {% block title %} Topic - Lista de Assuntos {% endblock title %}
 
 {% block content %}
-    <h1>Assuntos</h1>
-    <a href="{% url 'publication:create_topic' %}">Novo assunto</a>
-    {% for topic in object_list %}
-        <p>{{ topic.name }} 
-            <a href="{% url 'publication:update_topic' topic.slug %}">Atualizar</a>
-            <a href="{% url 'publication:delete_topic' topic.slug %}">Deletar</a>
-        </p>
-    {% empty %}
-        <p>Sem assuntos</p>
-    {% endfor %}
+<h1>Assuntos</h1>
+<a href="{% url 'publication:create_topic' %}">Novo assunto</a>
+{% for topic in object_list %}
+<p>{{ topic.name }}
+    <a href="{% url 'publication:update_topic' topic.slug %}">Atualizar</a>
+    <a href="{% url 'publication:delete_topic' topic.slug %}">Deletar</a>
+</p>
+{% empty %}
+<p>Sem assuntos</p>
+{% endfor %}
 
 {% endblock content %}
