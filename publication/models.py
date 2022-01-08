@@ -51,7 +51,7 @@ class Post(TimeStampedModel):
         return dislikes
 
     def get_time(self):
-        format_data(self)
+        return format_data(self)
 
 
 class Comment(TimeStampedModel):
@@ -70,7 +70,7 @@ class Comment(TimeStampedModel):
         return self.text
 
     def get_time(self):
-        format_data(self)
+        return format_data(self)
 
 
 def format_data(date):
