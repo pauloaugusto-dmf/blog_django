@@ -26,21 +26,19 @@
 <p>{{ post.article|safe }}</p>
 
 <div class="">
-    <form class="" action="{% url 'publication:like' %}" method="post">
+    <form class="" id="likeForm" action="{# url 'publication:like' #}" method="post">
         {% csrf_token %}
-        <input type="hidden" name="like" value="1">
-        <button class="" , type="submit" , name="post_id" value="{{ post.id }}" ,>
+        <button class="" type="submit" name="post_id" value="{{ post.id }}" >
             <p>like</p>
-            <a>{{ post.get_sum_likes }}</a>
+            <a id="like">{{ post.get_sum_likes }}</a>
         </button>
     </form>
 
-    <form class="" action="{% url 'publication:like' %}" method="post">
+    <form class="" id="dislikeForm" action="{# url 'publication:like' #}" method="post">
         {% csrf_token %}
-        <input type="hidden" name="like" value="0">
-        <button class="" , type="submit" , name="post_id" value="{{ post.id }}" ,>
+        <button class="" type="submit" name="post_id" value="{{ post.id }}" >
             <p>dislike</p>
-            <a>{{ post.get_sum_dislikes }}</a>
+            <a id="dislike">{{ post.get_sum_dislikes }}</a>
         </button>
     </form>
 
@@ -49,14 +47,14 @@
 <h3>Comentarios</h3>
 
 <div class="">
-    <form class="" id="comment_post" action="" method="post">
+    <form class="" id="commentForm" action="" method="post">
         {% csrf_token %}
         <fieldset>
             <legend> Campo de comentario </legend>
             <label for="comment_text">Commentario</label><br>
-            <textarea class="form-control" placeholder="Deixe um commentario aqui" id="comment_text"></textarea><br>
+            <textarea class="form-control" placeholder="Deixe um commentario aqui" id="commentText"></textarea><br>
 
-            <button class="" , type="submit" , id="post_id" name="post_id" value="{{ post.id }}">Comentar</button>
+            <button class="" , type="submit" , name="post_id" value="{{ post.id }}">Comentar</button>
         </fieldset>
 
     </form>
@@ -89,9 +87,10 @@
 </p>
 
 <script>
-    const URL = "{% url 'publication:comment' post.pk %}"
+    const URL_COMMENT = "{% url 'publication:comment' post.pk %}"
+    const URL_LIKE = "{% url 'publication:like' post.pk %}"
 </script>
 
-<script src="{% static 'js/comment.js' %}"></script>
+<script src="{% static 'js/fetch.js' %}"></script>
 
 {% endblock content %}

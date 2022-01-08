@@ -134,28 +134,45 @@ class PostSearchView(View):
 class PostLikeView(View):
     model = Post
 
-    def post(self, request):
+    def post(self, request, pk):
         # TODO refactor
-        like = request.POST.get("like")
-        post = get_object_or_404(self.model, id=request.POST.get("post_id"))
-        if like == "1":
-            if post.dislike.filter(id=request.user.id).exists():
-                post.like.add(request.user)
-                post.dislike.remove(request.user)
-            elif post.like.filter(id=request.user.id).exists():
-                post.like.remove(request.user)
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            post = get_object_or_404(self.model, id=pk)
+            data_from_post = json.load(request)["data"]
+            if data_from_post == 1:
+                if post.dislike.filter(id=request.user.id).exists():
+                    post.like.add(request.user)
+                    post.dislike.remove(request.user)
+                elif post.like.filter(id=request.user.id).exists():
+                    post.like.remove(request.user)
+                else:
+                    post.like.add(request.user)
+
+                data = json.dumps(
+                    {
+                        "like": post.get_sum_likes(),
+                        "dislike": post.get_sum_dislikes(),
+                    },
+                    indent=4,
+                )
+                return JsonResponse(data, safe=False)
             else:
-                post.like.add(request.user)
-            return redirect(post.get_absolute_url())
-        else:
-            if post.like.filter(id=request.user.id).exists():
-                post.dislike.add(request.user)
-                post.like.remove(request.user)
-            elif post.dislike.filter(id=request.user.id).exists():
-                post.dislike.remove(request.user)
-            else:
-                post.dislike.add(request.user)
-            return redirect(post.get_absolute_url())
+                if post.like.filter(id=request.user.id).exists():
+                    post.dislike.add(request.user)
+                    post.like.remove(request.user)
+                elif post.dislike.filter(id=request.user.id).exists():
+                    post.dislike.remove(request.user)
+                else:
+                    post.dislike.add(request.user)
+
+                data = json.dumps(
+                    {
+                        "like": post.get_sum_likes(),
+                        "dislike": post.get_sum_dislikes(),
+                    },
+                    indent=4,
+                )
+                return JsonResponse(data, safe=False)
 
 
 class PostCommentView(CreateView):
@@ -166,11 +183,11 @@ class PostCommentView(CreateView):
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
             models = Comment()
 
-            data_from_post = json.load(request)["post_data"]
+            data_from_post = json.load(request)["data"]
 
-            models.post = Post.objects.get(id=data_from_post["post_id"])
+            models.post = Post.objects.get(id=pk)
             models.user = request.user
-            models.text = data_from_post["comment"]
+            models.text = data_from_post
             models.save()
 
             data = json.dumps(
