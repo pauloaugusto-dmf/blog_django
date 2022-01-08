@@ -148,14 +148,8 @@ class PostLikeView(View):
                 else:
                     post.like.add(request.user)
 
-                data = json.dumps(
-                    {
-                        "like": post.get_sum_likes(),
-                        "dislike": post.get_sum_dislikes(),
-                    },
-                    indent=4,
-                )
-                return JsonResponse(data, safe=False)
+                return self.return_json_data(post)
+
             else:
                 if post.like.filter(id=request.user.id).exists():
                     post.dislike.add(request.user)
@@ -165,15 +159,17 @@ class PostLikeView(View):
                 else:
                     post.dislike.add(request.user)
 
-                data = json.dumps(
-                    {
-                        "like": post.get_sum_likes(),
-                        "dislike": post.get_sum_dislikes(),
-                    },
-                    indent=4,
-                )
-                return JsonResponse(data, safe=False)
+                return self.return_json_data(post)
 
+    def return_json_data(self, post):
+        data = json.dumps(
+            {
+                "like": post.get_sum_likes(),
+                "dislike": post.get_sum_dislikes(),
+            },
+            indent=4,
+        )
+        return JsonResponse(data, safe=False)
 
 class PostCommentView(CreateView):
     fields = "__all__"
