@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
@@ -10,6 +11,10 @@ from django.views.generic.list import ListView
 from .models import Topic, Post, Comment
 from .form import PostCreateForm, PostCommentForm
 
+
+class AdminStaffRequireMixin(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
 
 class PublicationHomeView(View):
     template_name = "publication/home.html"
@@ -29,25 +34,25 @@ class PublicationHomeView(View):
 # Topic Views
 
 
-class TopicListView(ListView):
+class TopicListView(AdminStaffRequireMixin, ListView):
     model = Topic
     paginate_by = 15
 
 
-class TopicCreateView(CreateView):
+class TopicCreateView(AdminStaffRequireMixin, CreateView):
     model = Topic
     fields = ["name"]
     success_url = "/topic/list/"
 
 
-class TopicUpdateView(UpdateView):
+class TopicUpdateView(AdminStaffRequireMixin, UpdateView):
     model = Topic
     fields = ["name"]
     template_name_suffix = "_update_form"
     success_url = "/topic/list/"
 
 
-class TopicDeleteView(DeleteView):
+class TopicDeleteView(AdminStaffRequireMixin, DeleteView):
     model = Topic
     template_name_suffix = "_confirm_delete"
     success_url = "/topic/list/"
@@ -56,7 +61,7 @@ class TopicDeleteView(DeleteView):
 # Post Views
 
 
-class PostListView(ListView):
+class PostListView(AdminStaffRequireMixin, ListView):
     model = Post
     paginate_by = 15
 
@@ -70,7 +75,7 @@ class PostDetailView(DetailView):
         return context
 
 
-class PostCreateView(CreateView):
+class PostCreateView(AdminStaffRequireMixin, CreateView):
     model = Post
     topic = Topic
     form = PostCreateForm
@@ -99,7 +104,7 @@ class PostCreateView(CreateView):
             return redirect("publication:create_post")
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(AdminStaffRequireMixin, UpdateView):
     model = Post
     topic = Topic
     fields = ["title", "topic", "image", "alt", "article"]
@@ -113,7 +118,7 @@ class PostUpdateView(UpdateView):
         return context
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(AdminStaffRequireMixin, DeleteView):
     model = Post
     template_name_suffix = "_confirm_delete"
     success_url = "/post/list/"
@@ -131,7 +136,7 @@ class PostSearchView(View):
         return render(request, self.template_name, context)
 
 
-class PostLikeView(View):
+class PostLikeView(LoginRequiredMixin, View):
     model = Post
 
     def post(self, request, pk):
@@ -171,7 +176,8 @@ class PostLikeView(View):
         )
         return JsonResponse(data, safe=False)
 
-class PostCommentView(CreateView):
+
+class PostCommentView(LoginRequiredMixin, CreateView):
     fields = "__all__"
     form = PostCommentForm
 
